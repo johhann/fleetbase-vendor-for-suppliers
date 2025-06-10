@@ -31,7 +31,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/johann/fleetbase-vendor-for-suppliers"
+            "url": "https://github.com/johhann/fleetbase-vendor-for-suppliers"
         }
     ],
     "autoload": {
