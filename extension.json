@@ -1,0 +1,10 @@
+{
+    "name": "vendors-for-suppliers",
+    "version": "0.0.1",
+    "description": "vendor records management for suppliers interacting with logistics facilities",
+    "repository": "https://github.com/fleetbase/starter-extension",
+    "license": "AGPL-3.0-or-later",
+    "author": "johhann <johannesm1219@gmail.com>",
+    "engine": "package.json",
+    "api": "composer.json"
+}

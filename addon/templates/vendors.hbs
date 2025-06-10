@@ -1,0 +1,160 @@
+<div class="flex-1 space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900">Vendor Management</h1>
+            <p class="mt-1 text-sm text-gray-500">
+                Manage your suppliers and logistics partners
+            </p>
+        </div>
+        <Button 
+            @type="primary" 
+            @icon="plus" 
+            @text="Add Vendor"
+            @onClick={{this.createVendor}}
+        />
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white shadow rounded-lg">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                    <Input
+                        @value={{this.search}}
+                        @placeholder="Search vendors..."
+                        @onInput={{this.searchVendors}}
+                        @icon="search"
+                    />
+                </div>
+                <div class="w-48">
+                    <Select
+                        @value={{this.status}}
+                        @placeholder="Filter by status"
+                        @options={{array 
+                            (hash value="" label="All Statuses")
+                            (hash value="active" label="Active")
+                            (hash value="inactive" label="Inactive")
+                        }}
+                        @onChange={{this.filterByStatus}}
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendors Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Vendor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Contact
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            QR Code
+                        </th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {{#each this.vendors as |vendor|}}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                            <FaIcon @icon="building" @class="text-indigo-600" />
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{vendor.name}}
+                                        </div>
+                                        {{#if vendor.address}}
+                                            <div class="text-sm text-gray-500">
+                                                {{vendor.address}}
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{vendor.email}}</div>
+                                <div class="text-sm text-gray-500">{{vendor.phone}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <Badge 
+                                    @status={{vendor.status}}
+                                    @text={{vendor.displayStatus}}
+                                />
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {{#if vendor.qrCodeUrl}}
+                                    <Button
+                                        @type="default"
+                                        @size="sm"
+                                        @icon="qrcode"
+                                        @text="Download"
+                                        @onClick={{fn this.downloadQrCode vendor}}
+                                    />
+                                {{else}}
+                                    <span class="text-sm text-gray-400">Not generated</span>
+                                {{/if}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center justify-end space-x-2">
+                                    <Button
+                                        @type="default"
+                                        @size="sm"
+                                        @icon="eye"
+                                        @onClick={{fn this.viewVendor vendor}}
+                                    />
+                                    <Button
+                                        @type="default"
+                                        @size="sm"
+                                        @icon="edit"
+                                        @onClick={{fn this.editVendor vendor}}
+                                    />
+                                    <Button
+                                        @type="danger"
+                                        @size="sm"
+                                        @icon="trash"
+                                        @onClick={{fn this.deleteVendor vendor}}
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                <div class="text-gray-500">
+                                    <FaIcon @icon="building" @class="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                                    <h3 class="text-sm font-medium text-gray-900 mb-1">No vendors found</h3>
+                                    <p class="text-sm text-gray-500">Get started by adding your first vendor.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {{#if this.vendors.meta}}
+            <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                <Pagination 
+                    @meta={{this.vendors.meta}}
+                    @onChange={{this.changePage}}
+                />
+            </div>
+        {{/if}}
+    </div>
+</div>
