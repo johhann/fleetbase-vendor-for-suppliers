@@ -22,22 +22,22 @@ A comprehensive vendor management extension for the Fleetbase platform that prov
 ### Backend Setup
 
 1. Copy the extension files to your Fleetbase installation:
-\`\`\`bash
+```bash
 cp -r server/src/* /path/to/fleetbase/api/src/
-\`\`\`
+```
 
 2. Run the database migration:
-\`\`\`bash
-php artisan migrate --path=database/migrations/vendor_management
-\`\`\`
+```bash
+php artisan migrate --path=database/migrations/vendor-for-suppliers
+```
 
 3. Install QR code generation package:
-\`\`\`bash
+```bash
 composer require simplesoftwareio/simple-qrcode
-\`\`\`
+```
 
 4. Add the extension routes to your API routes file:
-\`\`\`php
+```php
 // In routes/api.php
 Route::prefix('vendors')->group(function () {
     Route::get('/', [VendorController::class, 'index']);
@@ -47,29 +47,29 @@ Route::prefix('vendors')->group(function () {
     Route::delete('/{id}', [VendorController::class, 'destroy']);
     Route::post('/scan', [VendorController::class, 'scanQrCode']);
 });
-\`\`\`
+```
 
 ### Frontend Setup
 
 1. Copy the Ember.js components to your console application:
-\`\`\`bash
+```bash
 cp -r console/app/* /path/to/fleetbase/console/app/
-\`\`\`
+```
 
 2. Install QR code scanning dependencies:
-\`\`\`bash
+```bash
 npm install jsqr
-\`\`\`
+```
 
 3. Add the vendor routes to your Ember router:
-\`\`\`javascript
+```javascript
 // In app/router.js
 this.route('vendors', function() {
   this.route('new');
   this.route('view', { path: '/:vendor_id' });
   this.route('edit', { path: '/:vendor_id/edit' });
 });
-\`\`\`
+```
 
 ## Usage
 
@@ -109,20 +109,20 @@ this.route('vendors', function() {
 
 Add these to your `.env` file:
 
-\`\`\`env
+```env
 # QR Code Storage
 FILESYSTEM_DISK=public
 QR_CODE_SIZE=300
 QR_CODE_MARGIN=2
-\`\`\`
+```
 
 ### Permissions
 
 Ensure your web server has write permissions to the storage directory for QR code generation:
 
-\`\`\`bash
+```bash
 chmod -R 775 storage/app/public/qr-codes
-\`\`\`
+```
 
 ## Security Considerations
 
@@ -139,9 +139,9 @@ chmod -R 775 storage/app/public/qr-codes
 To add custom fields to vendors:
 
 1. Create a new migration:
-\`\`\`bash
+```bash
 php artisan make:migration add_custom_fields_to_vendors_table
-\`\`\`
+```
 
 2. Update the Vendor model's `$fillable` array
 3. Update the frontend forms and display templates
