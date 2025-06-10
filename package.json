@@ -1,6 +1,6 @@
 {
     "name": "@johhann/vendors-for-suppliers-engine",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "vendor records management for suppliers interacting with logistics facilities",
     "keywords": [
         "fleetbase-extension",
